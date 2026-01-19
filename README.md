@@ -1,4 +1,4 @@
-## 🛒 Lista de Compras Inteligente
+# 🛒 Lista de Compras Inteligente
 
 A Lista de Compras Inteligente é uma aplicação web desenvolvida para organizar compras domésticas de forma prática, visual e persistente, permitindo controlar quantidades, preços, totais, gasto previsto e saldo disponível em tempo real.
 O sistema substitui listas em papel ou anotações improvisadas, oferecendo uma experiência fluida tanto no desktop quanto no mobile, com foco em simplicidade, organização e usabilidade.
@@ -151,29 +151,46 @@ O sistema recalcula automaticamente:
 
 ## ▶️ Como Rodar o Projeto
 
+### 1. Clonar o repositório
+
+```bash
+git clone https://github.com/seu-usuario/seu-repositorio.git
+cd seu-repositorio
 ```
-1. Clonar o repositório
-   git clone https://github.com/eduardoliboriox/supermarket-manager-flask-postgres.git
-   cd seu-repositorio
 
-2. Criar e ativar o ambiente virtual
-   python -m venv venv
-   venv\Scripts\activate
+### 2. Criar e ativar o ambiente virtual
 
-3. Instalar as dependências
-   pip install -r requirements.txt
+```bash
+python -m venv venv
+venv\Scripts\activate
+```
 
-4. Configurar variáveis de ambiente
-   Crie um arquivo .env na raiz do projeto:
-   FLASK_ENV=development
-   SECRET_KEY=supersecretkey
-   DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+### 3. Instalar as dependências
 
-5. Rodar a aplicação
-   python run.py
+```bash
+pip install -r requirements.txt
+```
 
-   Depois, acessar no navegador:
-   http://127.0.0.1:5000
+### 4. Configurar variáveis de ambiente
+
+Crie um arquivo `.env` na raiz do projeto:
+
+```env
+FLASK_ENV=development
+SECRET_KEY=supersecretkey
+DATABASE_URL=postgresql://user:password@localhost:5432/dbname
+```
+
+### 5. Rodar a aplicação
+
+```bash
+python run.py
+```
+
+Acesse no navegador:
+
+```
+http://127.0.0.1:5000
 ```
 ---
 
