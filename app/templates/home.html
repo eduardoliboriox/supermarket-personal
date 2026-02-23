@@ -1,112 +1,159 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="lista-compras">
+<section class="page-shell">
 
-    <!-- ================= TOPO FIXO ================= -->
-    <div class="topo-fixo-compras">
-        <h2 class="titulo">🛒 Lista de Compras</h2>
+    <!-- HEADER DA PÁGINA -->
+    <div class="page-hero">
+        <div class="page-hero-left">
+            <h1 class="page-title">Lista de Compras</h1>
+            <p class="page-muted">Controle rápido de itens, preço e saldo em tempo real.</p>
+        </div>
 
-        <div class="resumo-valores">
-            <div class="valor-card fw-bold">
-                <span>Total Atual</span>
-                <strong id="total-atual">R$ 0,00</strong>
-            </div>
+        <div class="page-hero-actions">
+            <button class="btn-primary" onclick="abrirModalProduto()">
+                <i class="fa-solid fa-plus"></i>
+                Cadastrar produto
+            </button>
 
-            <div class="valor-card fw-bold">
-                <span>Gasto Previsto</span>
+            <button class="btn-danger-outline" onclick="limparDados()">
+                <i class="fa-solid fa-trash"></i>
+                Limpar
+            </button>
+        </div>
+    </div>
+
+    <!-- KPIs / RESUMO -->
+    <div class="kpi-grid">
+        <div class="kpi-card">
+            <span>Total atual</span>
+            <strong id="total-atual">R$ 0,00</strong>
+        </div>
+
+        <div class="kpi-card">
+            <span>Gasto previsto</span>
+            <div class="kpi-input">
                 <input type="text" id="gasto-previsto" placeholder="R$ 0,00" inputmode="decimal">
             </div>
-
-            <div class="valor-card destaque">
-                <span>Saldo Disponível</span>
-                <strong id="saldo-disponivel">R$ 0,00</strong>
-            </div>
         </div>
 
-        <div class="acoes-topo">
-            <button class="btn-mini" onclick="abrirModalProduto()">
-                Cadastrar Produto
-            </button>
-
-            <button class="btn-mini btn-limpar" onclick="limparDados()">
-                Limpar dados
-            </button>
+        <div class="kpi-card kpi-highlight">
+            <span>Saldo disponível</span>
+            <strong id="saldo-disponivel">R$ 0,00</strong>
         </div>
     </div>
-    <!-- ================= FIM TOPO ================= -->
 
+    <!-- CATEGORIAS -->
+    <div class="categories">
+        {% for categoria in categorias %}
+        <div class="category-card" data-categoria="{{ categoria }}">
 
-    <!-- ================= CATEGORIAS ================= -->
-    {% for categoria in categorias %}
-    <div class="categoria" data-categoria="{{ categoria }}">
-
-        <div class="categoria-header">
-            <h3>{{ categoria }}</h3>
-            <button class="btn-add-produto" onclick="abrirModalProduto('{{ categoria }}')">+</button>
-        </div>
-
-        {% for p in produtos if p.setor == categoria %}
-        <div class="produto-card" data-preco="{{ p.ultimo_preco }}">
-
-            <div class="linha">
-                <span class="nome">{{ p.nome }}</span>
-
-                <span class="preco-texto">
-                    R$ {{ "%.2f"|format(p.ultimo_preco) }}
-                </span>
-
-                <input type="number"
-                       class="preco-input"
-                       value="{{ p.ultimo_preco }}"
-                       step="0.01">
-            </div>
-
-            <div class="linha">
-                <div class="qtd">
-                    <button class="btn-menos">−</button>
-                    <span class="qtd-valor">0</span>
-                    <button class="btn-mais">+</button>
+            <div class="category-header">
+                <div class="category-title">
+                    <h2>{{ categoria }}</h2>
+                    <span class="category-badge">
+                        {{ (produtos | selectattr("setor", "equalto", categoria) | list | length) }} itens
+                    </span>
                 </div>
 
-                <strong class="total-produto">
-                    R$ {{ "%.2f"|format(p.ultimo_preco) }}
-                </strong>
+                <button class="icon-pill" onclick="abrirModalProduto('{{ categoria }}')" aria-label="Adicionar item">
+                    <i class="fa-solid fa-plus"></i>
+                </button>
             </div>
+
+            <div class="category-items">
+                {% for p in produtos if p.setor == categoria %}
+                <div class="produto-card" data-preco="{{ p.ultimo_preco }}">
+                    <div class="produto-row">
+                        <div class="produto-info">
+                            <div class="nome">{{ p.nome }}</div>
+                            <div class="produto-sub">
+                                <span class="preco-texto">R$ {{ "%.2f"|format(p.ultimo_preco) }}</span>
+
+                                <input
+                                    type="number"
+                                    class="preco-input"
+                                    value="{{ p.ultimo_preco }}"
+                                    step="0.01"
+                                >
+                            </div>
+                        </div>
+
+                        <div class="produto-total">
+                            <strong class="total-produto">R$ {{ "%.2f"|format(p.ultimo_preco) }}</strong>
+                        </div>
+                    </div>
+
+                    <div class="produto-actions">
+                        <div class="qtd">
+                            <button class="btn-menos" aria-label="Diminuir">−</button>
+                            <span class="qtd-valor">0</span>
+                            <button class="btn-mais" aria-label="Aumentar">+</button>
+                        </div>
+
+                        <div class="hint">
+                            Toque no preço para editar
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+
+                {% if (produtos | selectattr("setor", "equalto", categoria) | list | length) == 0 %}
+                <div class="empty-state">
+                    <i class="fa-solid fa-basket-shopping"></i>
+                    <div>
+                        <strong>Nenhum item nesta categoria</strong>
+                        <p>Use o botão “+” para adicionar.</p>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+
         </div>
         {% endfor %}
-
     </div>
-    {% endfor %}
 
-</div>
+</section>
 
 
 <!-- ================= MODAL ================= -->
 <div class="modal" id="modalProduto">
     <div class="modal-content">
-        <h3>Novo Produto</h3>
+        <div class="modal-head">
+            <h3>Novo produto</h3>
+            <button type="button" class="modal-x" onclick="fecharModalProduto()" aria-label="Fechar">×</button>
+        </div>
 
         <form method="POST" action="{{ url_for('pages.add_item') }}">
-            <input type="text" name="nome" placeholder="Nome do produto" required>
-            <input type="number" name="preco" step="0.01" placeholder="Preço" required>
+            <label class="field">
+                <span>Nome do produto</span>
+                <input type="text" name="nome" placeholder="Ex: Arroz" required>
+            </label>
 
-            <select name="setor" id="select-setor" required>
-                {% for categoria in categorias %}
-                <option value="{{ categoria }}">{{ categoria }}</option>
-                {% endfor %}
-            </select>
+            <label class="field">
+                <span>Preço</span>
+                <input type="number" name="preco" step="0.01" placeholder="Ex: 12.90" required>
+            </label>
+
+            <label class="field">
+                <span>Categoria</span>
+                <select name="setor" id="select-setor" required>
+                    {% for categoria in categorias %}
+                    <option value="{{ categoria }}">{{ categoria }}</option>
+                    {% endfor %}
+                </select>
+            </label>
 
             <div class="modal-actions">
-                <button type="button" class="btn-cancelar" onclick="fecharModalProduto()">Cancelar</button>
-                <button type="submit" class="btn-salvar">Salvar</button>
+                <button type="button" class="btn-ghost" onclick="fecharModalProduto()">Cancelar</button>
+                <button type="submit" class="btn-primary">Salvar</button>
             </div>
         </form>
     </div>
 </div>
 
 
-<!-- ================= JS ================= -->
+<!-- ================= JS (seu, mantido) ================= -->
 <script>
 let categoriaAtual = null;
 
