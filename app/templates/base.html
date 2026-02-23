@@ -11,6 +11,9 @@
     <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
     <meta name="theme-color" content="#0d6efd">
 
+    <!-- iOS -->
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/logos/pwa-192.png') }}">
+
     <!-- CSS PRINCIPAL -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -22,30 +25,38 @@
 
 <body>
 
-<!-- ================= HEADER MOBILE ================= -->
-<header class="header-mobile">
-    <div class="header-mobile-left">
-        <div class="avatar-circle">
-            <img src="{{ url_for('static', filename='images/users/eduardo.jpeg') }}"
-                 alt="Usuário">
+<!-- ================= APP HEADER (NOVO) ================= -->
+<header class="app-header">
+    <div class="app-header-left">
+        <img
+            class="app-logo"
+            src="{{ url_for('static', filename='images/logos/icon-logo-mobile.png') }}"
+            alt="Supermercado"
+        />
+        <div class="app-title">
+            <strong>Supermercado</strong>
+            <span class="app-subtitle">{% if page=='produtos' %}Gerenciar produtos{% else %}Lista de compras{% endif %}</span>
         </div>
-        <span class="user-name"></span>
     </div>
 
-    <div class="header-mobile-right">
-        <button class="btn-search" type="button" aria-label="Buscar">
+    <div class="app-header-right">
+        <button class="icon-btn btn-search" type="button" aria-label="Buscar">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </div>
 </header>
 
-<!-- Barra de busca opcional (se quiser usar futuramente) -->
+<!-- Barra de busca (melhorada, mantendo a funcionalidade do main.js) -->
 <div class="mobile-search">
-    <input type="text" placeholder="Buscar...">
+    <div class="mobile-search-inner">
+        <i class="fa-solid fa-magnifying-glass"></i>
+        <input type="text" placeholder="Buscar..." />
+        <button class="mobile-search-clear" type="button" aria-label="Limpar">×</button>
+    </div>
 </div>
 
 <!-- ================= CONTEÚDO ================= -->
-<main class="container-fluid mt-2">
+<main class="app-main">
     {% block content %}{% endblock %}
 </main>
 
@@ -75,8 +86,7 @@
         <small>Carrinho</small>
     </a>
 
-    <a href="{{ url_for('pages.home') }}"
-       class="bottom-item disabled" onclick="paginaEmBreve()">
+    <a class="bottom-item disabled" onclick="paginaEmBreve()">
         <img src="{{ url_for('static', filename='images/icons/menu-mais.jpeg') }}"
              class="bottom-icon"
              alt="Mais">
