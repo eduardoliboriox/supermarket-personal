@@ -7,8 +7,6 @@
 
     <h3 class="titulo-pagina">📦 Produtos Cadastrados</h3>
 
-    {% set categorias = ["Alimentos Principais", "Complementos", "Temperos", "Higiene e Limpeza"] %}
-
     <div class="produtos-grid">
         {% for p in produtos %}
         <div class="produto-admin-card" data-id="{{ p.id }}">
@@ -81,7 +79,7 @@ function salvarProduto(id) {
             card.classList.add("salvo");
             setTimeout(() => card.classList.remove("salvo"), 800);
         } else {
-            alert("Erro ao salvar produto.");
+            alert(res.message || "Erro ao salvar produto.");
         }
     })
     .catch(() => alert("Erro de comunicação com o servidor."));
@@ -101,7 +99,7 @@ function excluirProduto(id) {
             const card = document.querySelector(`[data-id="${id}"]`);
             if (card) card.remove();
         } else {
-            alert("Erro ao excluir produto.");
+            alert(res.message || "Erro ao excluir produto.");
         }
     })
     .catch(() => alert("Erro de comunicação com o servidor."));

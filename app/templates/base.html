@@ -7,6 +7,10 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
+    <!-- PWA -->
+    <link rel="manifest" href="{{ url_for('static', filename='manifest.webmanifest') }}">
+    <meta name="theme-color" content="#0d6efd">
+
     <!-- CSS PRINCIPAL -->
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
@@ -29,11 +33,16 @@
     </div>
 
     <div class="header-mobile-right">
-        <button class="btn-search" type="button">
+        <button class="btn-search" type="button" aria-label="Buscar">
             <i class="fa-solid fa-magnifying-glass"></i>
         </button>
     </div>
 </header>
+
+<!-- Barra de busca opcional (se quiser usar futuramente) -->
+<div class="mobile-search">
+    <input type="text" placeholder="Buscar...">
+</div>
 
 <!-- ================= CONTEÚDO ================= -->
 <main class="container-fluid mt-2">
@@ -66,7 +75,8 @@
         <small>Carrinho</small>
     </a>
 
-    <a class="bottom-item disabled" onclick="paginaEmBreve()">
+    <a href="{{ url_for('pages.home') }}"
+       class="bottom-item disabled" onclick="paginaEmBreve()">
         <img src="{{ url_for('static', filename='images/icons/menu-mais.jpeg') }}"
              class="bottom-icon"
              alt="Mais">

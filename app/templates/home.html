@@ -38,7 +38,6 @@
 
 
     <!-- ================= CATEGORIAS ================= -->
-    {% set categorias = ["Alimentos Principais", "Complementos", "Temperos", "Higiene e Limpeza"] %}
     {% for categoria in categorias %}
     <div class="categoria" data-categoria="{{ categoria }}">
 
@@ -162,8 +161,8 @@ function calcularTotais() {
     document.getElementById("total-atual").innerText = formatar(total);
 
     const gastoPrevisto = parseMoeda(
-    document.getElementById("gasto-previsto").value
-);
+        document.getElementById("gasto-previsto").value
+    );
 
     document.getElementById("saldo-disponivel").innerText =
         formatar(gastoPrevisto - total);
@@ -234,10 +233,9 @@ function restaurarEstado() {
 
     const estado = JSON.parse(dados);
     if (estado.gastoPrevisto) {
-    document.getElementById("gasto-previsto").value =
-        formatar(parseMoeda(estado.gastoPrevisto));
-}
-
+        document.getElementById("gasto-previsto").value =
+            formatar(parseMoeda(estado.gastoPrevisto));
+    }
 
     document.querySelectorAll(".produto-card").forEach(card => {
         const nome = card.querySelector(".nome").innerText;
@@ -259,7 +257,7 @@ function limparDados() {
 
     localStorage.removeItem("listaCompras");
     document.querySelectorAll(".qtd-valor").forEach(q => q.innerText = 0);
-    document.getElementById("gasto-previsto").value = 0;
+    document.getElementById("gasto-previsto").value = "";
     calcularTotais();
 }
 
@@ -273,7 +271,6 @@ window.addEventListener("load", () => {
         calcularTotais();
         salvarEstado();
     });
-
 
     restaurarEstado();
     calcularTotais();

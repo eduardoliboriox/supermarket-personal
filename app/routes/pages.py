@@ -1,62 +1,61 @@
-from flask import Blueprint, render_template, request, redirect, url_for
-from app.extensions import get_db
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+from app.extensions import db_cursor
+from app.repositories.produto_repository import ProdutoRepository
+from app.services.produto_service import ProdutoService
 
 pages_bp = Blueprint("pages", __name__)
 
+CATEGORIAS_PADRAO = [
+    "Alimentos Principais",
+    "Complementos",
+    "Temperos",
+    "Higiene e Limpeza",
+]
+
+
 @pages_bp.route("/")
 def home():
-    conn = get_db()
-    cur = conn.cursor()
+    with db_cursor() as cur:
+        produtos = ProdutoRepository.list_all(cur)
 
-    cur.execute("""
-        SELECT id, nome, setor, ultimo_preco
-        FROM produtos
-        ORDER BY setor, nome
-    """)
-    produtos = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return render_template("home.html", produtos=produtos, page="home")
+    return render_template(
+        "home.html",
+        produtos=produtos,
+        categorias=CATEGORIAS_PADRAO,
+        page="home"
+    )
 
 
 @pages_bp.route("/produtos")
 def produtos():
-    conn = get_db()
-    cur = conn.cursor()
+    with db_cursor() as cur:
+        produtos = ProdutoRepository.list_all(cur)
 
-    cur.execute("""
-        SELECT id, nome, ultimo_preco, setor
-        FROM produtos
-        ORDER BY setor, nome
-    """)
-    produtos = cur.fetchall()
-
-    cur.close()
-    conn.close()
-
-    return render_template("produtos.html", produtos=produtos, page="produtos")
+    return render_template(
+        "produtos.html",
+        produtos=produtos,
+        categorias=CATEGORIAS_PADRAO,
+        page="produtos"
+    )
 
 
 @pages_bp.route("/add", methods=["POST"])
 def add_item():
-    nome = request.form["nome"]
-    preco = float(request.form["preco"])
-    setor = request.form["setor"]
+    nome = ProdutoService.normalizar_nome(request.form.get("nome", ""))
+    setor = ProdutoService.normalizar_setor(request.form.get("setor", ""))
+    preco_raw = request.form.get("preco", "0")
 
-    conn = get_db()
-    cur = conn.cursor()
+    try:
+        preco = float(preco_raw)
+        ProdutoService.validar(nome, preco, setor=setor)
 
-    cur.execute("""
-        INSERT INTO produtos (nome, setor, ultimo_preco)
-        VALUES (%s, %s, %s)
-        ON CONFLICT (nome)
-        DO UPDATE SET ultimo_preco = EXCLUDED.ultimo_preco
-    """, (nome, setor, preco))
+        with db_cursor() as cur:
+            ProdutoRepository.upsert_by_name(cur, nome, setor, preco)
 
-    conn.commit()
-    cur.close()
-    conn.close()
+    except ValueError as e:
+        # Não quebra fluxo — volta para home e mostra aviso simples
+        flash(str(e))
+    except Exception:
+        flash("Erro ao salvar produto.")
 
     return redirect(url_for("pages.home"))
