@@ -3,41 +3,62 @@
 
 {% block content %}
 
-<div class="pagina-produtos">
+<section class="page-shell">
 
-    <h3 class="titulo-pagina">📦 Produtos Cadastrados</h3>
+    <div class="page-hero">
+        <div class="page-hero-left">
+            <h1 class="page-title">Produtos</h1>
+            <p class="page-muted">Edite nome, preço e categoria com rapidez.</p>
+        </div>
+    </div>
 
-    <div class="produtos-grid">
+    <div class="admin-grid">
         {% for p in produtos %}
-        <div class="produto-admin-card" data-id="{{ p.id }}">
+        <div class="admin-card" data-id="{{ p.id }}">
 
-            <input class="produto-nome"
-                   value="{{ p.nome }}"
-                   placeholder="Nome do produto">
+            <div class="admin-card-head">
+                <span class="admin-pill">ID #{{ p.id }}</span>
+                <span class="admin-muted">Último preço: R$ {{ "%.2f"|format(p.ultimo_preco) }}</span>
+            </div>
 
-            <input class="produto-preco"
-                   type="number"
-                   step="0.01"
-                   value="{{ "%.2f"|format(p.ultimo_preco) }}"
-                   placeholder="Preço">
+            <label class="field">
+                <span>Nome</span>
+                <input class="produto-nome"
+                       value="{{ p.nome }}"
+                       placeholder="Nome do produto">
+            </label>
 
-            <select class="produto-categoria">
-                {% for categoria in categorias %}
-                <option value="{{ categoria }}"
-                    {% if p.setor == categoria %}selected{% endif %}>
-                    {{ categoria }}
-                </option>
-                {% endfor %}
-            </select>
+            <div class="two-cols">
+                <label class="field">
+                    <span>Preço</span>
+                    <input class="produto-preco"
+                           type="number"
+                           step="0.01"
+                           value="{{ "%.2f"|format(p.ultimo_preco) }}"
+                           placeholder="Preço">
+                </label>
 
-            <div class="acoes-produto">
-                <button class="btn-salvar"
-                        onclick="salvarProduto({{ p.id }})">
+                <label class="field">
+                    <span>Categoria</span>
+                    <select class="produto-categoria">
+                        {% for categoria in categorias %}
+                        <option value="{{ categoria }}"
+                            {% if p.setor == categoria %}selected{% endif %}>
+                            {{ categoria }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </label>
+            </div>
+
+            <div class="admin-actions">
+                <button class="btn-primary" onclick="salvarProduto({{ p.id }})">
+                    <i class="fa-solid fa-floppy-disk"></i>
                     Salvar
                 </button>
 
-                <button class="btn-excluir"
-                        onclick="excluirProduto({{ p.id }})">
+                <button class="btn-danger" onclick="excluirProduto({{ p.id }})">
+                    <i class="fa-solid fa-trash"></i>
                     Excluir
                 </button>
             </div>
@@ -45,10 +66,11 @@
         </div>
         {% endfor %}
     </div>
-</div>
+
+</section>
 
 
-<!-- ================= JS ================= -->
+<!-- ================= JS (seu, mantido) ================= -->
 <script>
 function salvarProduto(id) {
     const card = document.querySelector(`[data-id="${id}"]`);
@@ -76,8 +98,8 @@ function salvarProduto(id) {
     .then(r => r.json())
     .then(res => {
         if (res.status === "ok") {
-            card.classList.add("salvo");
-            setTimeout(() => card.classList.remove("salvo"), 800);
+            card.classList.add("saved");
+            setTimeout(() => card.classList.remove("saved"), 900);
         } else {
             alert(res.message || "Erro ao salvar produto.");
         }
