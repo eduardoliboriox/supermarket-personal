@@ -22,9 +22,6 @@
     --header-h: 61px;
 }
 
-/* ======================================================
-   RESET / BASE
-====================================================== */
 * { box-sizing: border-box; }
 
 html, body {
@@ -39,15 +36,11 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
-    /* Compensa a altura do header fixo para o conteúdo não ficar escondido atrás dele */
     padding-top: var(--header-h);
 }
 
 a { color: inherit; }
 
-/* ======================================================
-   LAYOUT
-====================================================== */
 .app-main {
     flex: 1;
     padding: 0 0 100px;
@@ -59,12 +52,6 @@ a { color: inherit; }
     padding: 0 12px;
 }
 
-/* ======================================================
-   APP HEADER
-   MUDANÇA: fixed em vez de sticky.
-   sticky some quando o pai sai da viewport.
-   fixed fica sempre visível independente do scroll.
-====================================================== */
 .app-header {
     position: fixed;
     top: 0;
@@ -136,9 +123,6 @@ a { color: inherit; }
 
 .icon-btn i { color: #1f2a44; }
 
-/* ======================================================
-   SEARCH BAR
-====================================================== */
 .mobile-search {
     display: none;
     padding: 8px 12px;
@@ -180,9 +164,6 @@ a { color: inherit; }
     line-height: 1;
 }
 
-/* ======================================================
-   KPI STICKY
-====================================================== */
 .kpi-sticky {
     position: sticky;
     top: var(--header-h);
@@ -236,9 +217,6 @@ a { color: inherit; }
     font-size: 15px;
 }
 
-/* ======================================================
-   PAGE HERO / BUTTONS
-====================================================== */
 .page-hero {
     background: linear-gradient(180deg, rgba(13,110,253,0.10), rgba(255,255,255,0));
     border: 1px solid var(--border);
@@ -316,9 +294,6 @@ a { color: inherit; }
     color: var(--danger);
 }
 
-/* ======================================================
-   CATEGORIES / ITEMS
-====================================================== */
 .categories {
     display: grid;
     gap: 12px;
@@ -504,9 +479,6 @@ a { color: inherit; }
     font-size: 20px;
 }
 
-/* ======================================================
-   ADMIN (PRODUTOS)
-====================================================== */
 .admin-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -593,9 +565,6 @@ a { color: inherit; }
     flex-wrap: wrap;
 }
 
-/* ======================================================
-   MODAL
-====================================================== */
 .modal {
     position: fixed;
     inset: 0;
@@ -655,9 +624,33 @@ a { color: inherit; }
     margin-top: 12px;
 }
 
-/* ======================================================
-   BOTTOM NAV
-====================================================== */
+.ios-install-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 8px 0;
+}
+
+.ios-step {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.ios-icon {
+    font-size: 22px;
+    color: var(--brand);
+    min-width: 28px;
+    text-align: center;
+}
+
+.ios-step p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--text);
+}
+
 .bottom-nav {
     position: fixed;
     bottom: 0;
@@ -738,9 +731,6 @@ a { color: inherit; }
     }
 }
 
-/* ======================================================
-   RESPONSIVO
-====================================================== */
 @media (max-width: 720px) {
     .kpi-grid { grid-template-columns: 1fr; }
     .two-cols  { grid-template-columns: 1fr; }
