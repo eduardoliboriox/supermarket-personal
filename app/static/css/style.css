@@ -1,6 +1,4 @@
-/* ======================================================
-   DESIGN TOKENS
-====================================================== */
+
 :root {
     --brand: #0d6efd;
     --brand-2: #0b5ed7;
@@ -18,11 +16,10 @@
     --shadow: 0 10px 30px rgba(15, 23, 42, 0.08);
 
     --radius: 16px;
+
+    --header-h: 61px;
 }
 
-/* ======================================================
-   RESET / BASE
-====================================================== */
 * { box-sizing: border-box; }
 
 html, body {
@@ -41,9 +38,6 @@ body {
 
 a { color: inherit; }
 
-/* ======================================================
-   LAYOUT
-====================================================== */
 .app-main {
     flex: 1;
     overflow-y: auto;
@@ -55,9 +49,6 @@ a { color: inherit; }
     margin: 0 auto;
 }
 
-/* ======================================================
-   APP HEADER (NOVO)
-====================================================== */
 .app-header {
     position: sticky;
     top: 0;
@@ -127,9 +118,6 @@ a { color: inherit; }
 
 .icon-btn i { color: #1f2a44; }
 
-/* ======================================================
-   SEARCH BAR (MELHORADA)
-====================================================== */
 .mobile-search {
     display: none;
     padding: 8px 12px;
@@ -171,9 +159,59 @@ a { color: inherit; }
     line-height: 1;
 }
 
-/* ======================================================
-   PAGE HERO / BUTTONS
-====================================================== */
+.kpi-sticky {
+    position: sticky;
+    top: var(--header-h);
+    z-index: 1100;
+    background: var(--bg);
+    padding: 10px 0 8px;
+    margin: 0 0 4px;
+
+    box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+    border-radius: var(--radius);
+}
+
+.kpi-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.kpi-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 14px;
+    box-shadow: var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.kpi-card span {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+.kpi-card strong {
+    font-size: 22px;
+    letter-spacing: -0.4px;
+}
+
+.kpi-highlight {
+    border-color: rgba(20,148,63,0.25);
+    background: linear-gradient(180deg, rgba(20,148,63,0.10), #fff);
+}
+
+.kpi-input input {
+    width: 100%;
+    padding: 10px 12px;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    outline: none;
+    font-size: 15px;
+}
+
 .page-hero {
     background: linear-gradient(180deg, rgba(13,110,253,0.10), rgba(255,255,255,0));
     border: 1px solid var(--border);
@@ -251,54 +289,6 @@ a { color: inherit; }
     color: var(--danger);
 }
 
-/* ======================================================
-   KPIs
-====================================================== */
-.kpi-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12px;
-    margin: 12px 0;
-}
-
-.kpi-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: 14px;
-    box-shadow: var(--shadow);
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-}
-
-.kpi-card span {
-    font-size: 12px;
-    color: var(--muted);
-}
-
-.kpi-card strong {
-    font-size: 22px;
-    letter-spacing: -0.4px;
-}
-
-.kpi-highlight {
-    border-color: rgba(20,148,63,0.25);
-    background: linear-gradient(180deg, rgba(20,148,63,0.10), #fff);
-}
-
-.kpi-input input {
-    width: 100%;
-    padding: 10px 12px;
-    border-radius: 12px;
-    border: 1px solid var(--border);
-    outline: none;
-    font-size: 15px;
-}
-
-/* ======================================================
-   CATEGORIES / ITEMS
-====================================================== */
 .categories {
     display: grid;
     gap: 12px;
@@ -484,9 +474,6 @@ a { color: inherit; }
     font-size: 20px;
 }
 
-/* ======================================================
-   ADMIN (PRODUTOS)
-====================================================== */
 .admin-grid {
     display: grid;
     grid-template-columns: 1fr;
@@ -573,9 +560,6 @@ a { color: inherit; }
     flex-wrap: wrap;
 }
 
-/* ======================================================
-   MODAL (mantido, mas refinado)
-====================================================== */
 .modal {
     position: fixed;
     inset: 0;
@@ -635,9 +619,6 @@ a { color: inherit; }
     margin-top: 12px;
 }
 
-/* ======================================================
-   BOTTOM NAV (mantido, com cara melhor)
-====================================================== */
 .bottom-nav {
     position: fixed;
     bottom: 10px;
@@ -645,7 +626,7 @@ a { color: inherit; }
     right: 10px;
 
     height: 66px;
-    background: rgba(15, 23, 42, 0.88);
+    background: rgba(15, 23, 42, 0.92);
     border: 1px solid rgba(255,255,255,0.10);
     border-radius: 20px;
 
@@ -655,12 +636,14 @@ a { color: inherit; }
 
     z-index: 1050;
     box-shadow: 0 18px 40px rgba(2, 6, 23, 0.28);
+    backdrop-filter: blur(10px);
 }
 
 .bottom-item {
     flex: 1;
     text-align: center;
     text-decoration: none;
+    cursor: pointer;
 
     display: flex;
     flex-direction: column;
@@ -668,42 +651,58 @@ a { color: inherit; }
     justify-content: center;
     gap: 4px;
 
-    color: rgba(255,255,255,0.72);
-    font-weight: 700;
+    color: rgba(255,255,255,0.45);
+    font-weight: 600;
+
+    position: relative;
+    padding: 6px 0;
+    transition: color 0.15s ease;
 }
 
-.bottom-icon {
-    width: 22px;
-    height: 22px;
-    object-fit: contain;
-    opacity: 0.70;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-    filter: saturate(1.2);
+.bottom-item i {
+    font-size: 20px;
+    transition: transform 0.15s ease, color 0.15s ease;
 }
 
 .bottom-item small {
     font-size: 11px;
+    font-weight: 600;
     transition: color 0.15s ease;
 }
 
-.bottom-item.active .bottom-icon {
-    opacity: 1;
-    transform: scale(1.08);
-}
-
-.bottom-item.active small {
+.bottom-item.active {
     color: #ffffff;
 }
 
-.bottom-item.disabled {
-    opacity: 0.55;
+.bottom-item.active i {
+    transform: scale(1.15);
+    color: #ffffff;
+    filter: drop-shadow(0 0 6px rgba(255,255,255,0.35));
 }
 
-/* ======================================================
-   RESPONSIVO
-====================================================== */
+.bottom-item.active::before {
+    content: '';
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 28px;
+    height: 3px;
+    border-radius: 0 0 4px 4px;
+    background: #ffffff;
+}
+
+.bottom-item.disabled {
+    opacity: 0.40;
+    cursor: default;
+}
+
 @media (max-width: 720px) {
     .kpi-grid { grid-template-columns: 1fr; }
     .two-cols { grid-template-columns: 1fr; }
     .produto-total { min-width: auto; }
+
+    .kpi-sticky {
+        top: var(--header-h);
+    }
 }
