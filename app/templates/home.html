@@ -22,7 +22,6 @@
     </div>
 </div>
 
-<!-- CONTEÚDO NORMAL dentro do page-shell -->
 <section class="page-shell">
 
     <div class="page-hero">
@@ -116,7 +115,6 @@
 </section>
 
 
-<!-- ================= MODAL ================= -->
 <div class="modal" id="modalProduto">
     <div class="modal-content">
         <div class="modal-head">
@@ -153,7 +151,6 @@
 </div>
 
 
-<!-- ================= JS (mantido integralmente) ================= -->
 <script>
 let categoriaAtual = null;
 
@@ -166,7 +163,8 @@ function parseMoeda(valor) {
         valor
             .replace("R$", "")
             .replace(/\s/g, "")
-            .replace(".", ".")
+            .replace(/\./g, "")
+            .replace(",", ".")
     ) || 0;
 }
 
@@ -308,7 +306,6 @@ function limparDados() {
 }
 
 window.addEventListener("load", () => {
-
     const header = document.querySelector(".app-header");
     const kpiBar = document.getElementById("kpi-sticky");
     if (header && kpiBar) {
