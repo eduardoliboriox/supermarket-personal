@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="kpi-sticky">
+<div class="kpi-sticky" id="kpi-sticky">
     <div class="kpi-grid page-shell">
         <div class="kpi-card">
             <span>Total atual</span>
@@ -166,8 +166,7 @@ function parseMoeda(valor) {
         valor
             .replace("R$", "")
             .replace(/\s/g, "")
-            .replace(".", "")
-            .replace(",", ".")
+            .replace(".", ".")
     ) || 0;
 }
 
@@ -309,6 +308,13 @@ function limparDados() {
 }
 
 window.addEventListener("load", () => {
+
+    const header = document.querySelector(".app-header");
+    const kpiBar = document.getElementById("kpi-sticky");
+    if (header && kpiBar) {
+        kpiBar.style.top = header.offsetHeight + "px";
+    }
+
     document.querySelectorAll(".produto-card").forEach(ativarEventosProduto);
 
     const gastoInput = document.getElementById("gasto-previsto");
