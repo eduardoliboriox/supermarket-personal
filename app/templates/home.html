@@ -1,8 +1,9 @@
 {% extends "base.html" %}
 {% block content %}
 
-<div class="kpi-sticky">
-    <div class="kpi-grid page-shell">
+<section class="page-shell">
+
+    <div class="kpi-grid kpi-sticky">
         <div class="kpi-card">
             <span>Total atual</span>
             <strong id="total-atual">R$ 0,00</strong>
@@ -20,9 +21,6 @@
             <strong id="saldo-disponivel">R$ 0,00</strong>
         </div>
     </div>
-</div>
-
-<section class="page-shell">
 
     <div class="page-hero">
         <div class="page-hero-left">
@@ -151,6 +149,7 @@
 </div>
 
 
+<!-- ================= JS (seu, mantido) ================= -->
 <script>
 let categoriaAtual = null;
 
