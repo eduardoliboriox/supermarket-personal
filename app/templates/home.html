@@ -3,7 +3,25 @@
 
 <section class="page-shell">
 
-    <!-- HEADER DA PÁGINA -->
+    <div class="kpi-grid kpi-sticky">
+        <div class="kpi-card">
+            <span>Total atual</span>
+            <strong id="total-atual">R$ 0,00</strong>
+        </div>
+
+        <div class="kpi-card">
+            <span>Gasto previsto</span>
+            <div class="kpi-input">
+                <input type="text" id="gasto-previsto" placeholder="R$ 0,00" inputmode="decimal">
+            </div>
+        </div>
+
+        <div class="kpi-card kpi-highlight">
+            <span>Saldo disponível</span>
+            <strong id="saldo-disponivel">R$ 0,00</strong>
+        </div>
+    </div>
+
     <div class="page-hero">
         <div class="page-hero-left">
             <h1 class="page-title">Lista de Compras</h1>
@@ -23,27 +41,6 @@
         </div>
     </div>
 
-    <!-- KPIs / RESUMO -->
-    <div class="kpi-grid">
-        <div class="kpi-card">
-            <span>Total atual</span>
-            <strong id="total-atual">R$ 0,00</strong>
-        </div>
-
-        <div class="kpi-card">
-            <span>Gasto previsto</span>
-            <div class="kpi-input">
-                <input type="text" id="gasto-previsto" placeholder="R$ 0,00" inputmode="decimal">
-            </div>
-        </div>
-
-        <div class="kpi-card kpi-highlight">
-            <span>Saldo disponível</span>
-            <strong id="saldo-disponivel">R$ 0,00</strong>
-        </div>
-    </div>
-
-    <!-- CATEGORIAS -->
     <div class="categories">
         {% for categoria in categorias %}
         <div class="category-card" data-categoria="{{ categoria }}">
@@ -103,7 +100,7 @@
                     <i class="fa-solid fa-basket-shopping"></i>
                     <div>
                         <strong>Nenhum item nesta categoria</strong>
-                        <p>Use o botão “+” para adicionar.</p>
+                        <p>Use o botão "+" para adicionar.</p>
                     </div>
                 </div>
                 {% endif %}
@@ -116,7 +113,6 @@
 </section>
 
 
-<!-- ================= MODAL ================= -->
 <div class="modal" id="modalProduto">
     <div class="modal-content">
         <div class="modal-head">
