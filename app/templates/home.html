@@ -1,9 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 
-<section class="page-shell">
-
-    <div class="kpi-grid kpi-sticky">
+<div class="kpi-sticky">
+    <div class="kpi-grid page-shell">
         <div class="kpi-card">
             <span>Total atual</span>
             <strong id="total-atual">R$ 0,00</strong>
@@ -21,6 +20,10 @@
             <strong id="saldo-disponivel">R$ 0,00</strong>
         </div>
     </div>
+</div>
+
+<!-- CONTEÚDO NORMAL dentro do page-shell -->
+<section class="page-shell">
 
     <div class="page-hero">
         <div class="page-hero-left">
@@ -113,6 +116,7 @@
 </section>
 
 
+<!-- ================= MODAL ================= -->
 <div class="modal" id="modalProduto">
     <div class="modal-content">
         <div class="modal-head">
@@ -149,7 +153,7 @@
 </div>
 
 
-<!-- ================= JS (seu, mantido) ================= -->
+<!-- ================= JS (mantido integralmente) ================= -->
 <script>
 let categoriaAtual = null;
 
