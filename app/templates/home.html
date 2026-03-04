@@ -40,6 +40,11 @@
                 <i class="fa-solid fa-trash"></i>
                 Limpar
             </button>
+
+            <button class="btn-ghost" id="btn-instalar" style="display:none" onclick="instalarApp()">
+                <i class="fa-solid fa-download"></i>
+                Instalar App
+            </button>
         </div>
     </div>
 
@@ -151,8 +156,36 @@
 </div>
 
 
+<div class="modal" id="modalInstalarIos">
+    <div class="modal-content">
+        <div class="modal-head">
+            <h3>Instalar no iPhone</h3>
+            <button type="button" class="modal-x" onclick="fecharModalIos()" aria-label="Fechar">×</button>
+        </div>
+        <div class="ios-install-steps">
+            <div class="ios-step">
+                <i class="fa-solid fa-arrow-up-from-bracket ios-icon"></i>
+                <p>Toque no botão <strong>Compartilhar</strong> na barra do Safari</p>
+            </div>
+            <div class="ios-step">
+                <i class="fa-solid fa-plus-square ios-icon"></i>
+                <p>Role para baixo e toque em <strong>"Adicionar à Tela de Início"</strong></p>
+            </div>
+            <div class="ios-step">
+                <i class="fa-solid fa-check ios-icon"></i>
+                <p>Toque em <strong>Adicionar</strong> no canto superior direito</p>
+            </div>
+        </div>
+        <div class="modal-actions">
+            <button type="button" class="btn-primary" onclick="fecharModalIos()">Entendi</button>
+        </div>
+    </div>
+</div>
+
+
 <script>
 let categoriaAtual = null;
+let deferredInstallPrompt = null;
 
 const formatar = v =>
     "R$ " + Number(v).toFixed(2).replace(".", ",");
@@ -191,6 +224,34 @@ function abrirModalProduto(categoria = null) {
 
 function fecharModalProduto() {
     document.getElementById("modalProduto").style.display = "none";
+}
+
+function fecharModalIos() {
+    document.getElementById("modalInstalarIos").style.display = "none";
+}
+
+function isIos() {
+    return /iphone|ipad|ipod/i.test(navigator.userAgent);
+}
+
+function isInStandaloneMode() {
+    return ("standalone" in navigator && navigator.standalone) ||
+           window.matchMedia("(display-mode: standalone)").matches;
+}
+
+function instalarApp() {
+    if (deferredInstallPrompt) {
+        deferredInstallPrompt.prompt();
+        deferredInstallPrompt.userChoice.then(() => {
+            deferredInstallPrompt = null;
+            document.getElementById("btn-instalar").style.display = "none";
+        });
+        return;
+    }
+
+    if (isIos()) {
+        document.getElementById("modalInstalarIos").style.display = "flex";
+    }
 }
 
 function calcularTotais() {
@@ -305,11 +366,26 @@ function limparDados() {
     calcularTotais();
 }
 
+window.addEventListener("beforeinstallprompt", (e) => {
+    e.preventDefault();
+    deferredInstallPrompt = e;
+    document.getElementById("btn-instalar").style.display = "inline-flex";
+});
+
+window.addEventListener("appinstalled", () => {
+    deferredInstallPrompt = null;
+    document.getElementById("btn-instalar").style.display = "none";
+});
+
 window.addEventListener("load", () => {
     const header = document.querySelector(".app-header");
     const kpiBar = document.getElementById("kpi-sticky");
     if (header && kpiBar) {
         kpiBar.style.top = header.offsetHeight + "px";
+    }
+
+    if (isIos() && !isInStandaloneMode()) {
+        document.getElementById("btn-instalar").style.display = "inline-flex";
     }
 
     document.querySelectorAll(".produto-card").forEach(ativarEventosProduto);
