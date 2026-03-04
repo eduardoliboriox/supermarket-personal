@@ -39,16 +39,14 @@ body {
     margin: 0;
     display: flex;
     flex-direction: column;
+    /* Compensa a altura do header fixo para o conteúdo não ficar escondido atrás dele */
+    padding-top: var(--header-h);
 }
 
 a { color: inherit; }
 
 /* ======================================================
    LAYOUT
-   MUDANÇA: overflow-y removido do app-main.
-   Com overflow-y: auto no pai, o position:sticky dos filhos
-   fica preso dentro dele e não funciona em relação ao viewport.
-   O scroll natural do body é suficiente e correto.
 ====================================================== */
 .app-main {
     flex: 1;
@@ -63,12 +61,17 @@ a { color: inherit; }
 
 /* ======================================================
    APP HEADER
+   MUDANÇA: fixed em vez de sticky.
+   sticky some quando o pai sai da viewport.
+   fixed fica sempre visível independente do scroll.
 ====================================================== */
 .app-header {
-    position: sticky;
+    position: fixed;
     top: 0;
+    left: 0;
+    right: 0;
     z-index: 1200;
-    background: rgba(255,255,255,0.85);
+    background: rgba(255,255,255,0.92);
     backdrop-filter: blur(10px);
     border-bottom: 1px solid var(--border);
     padding: 10px 12px;
@@ -179,10 +182,6 @@ a { color: inherit; }
 
 /* ======================================================
    KPI STICKY
-   MUDANÇA: o wrapper ocupa largura total da tela com padding
-   lateral, e o kpi-grid interno usa page-shell para centralizar.
-   Isso permite o sticky funcionar sem estar preso num container
-   com overflow.
 ====================================================== */
 .kpi-sticky {
     position: sticky;
@@ -194,8 +193,6 @@ a { color: inherit; }
     padding: 10px 12px;
 }
 
-/* Quando .kpi-grid está dentro de .kpi-sticky, ele respeita
-   o max-width via classe page-shell aplicada junto no HTML */
 .kpi-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -623,7 +620,7 @@ a { color: inherit; }
 
 @keyframes modalUp {
     from { transform: translateY(16px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
+    to   { transform: translateY(0); opacity: 1; }
 }
 
 .modal-head {
@@ -660,9 +657,6 @@ a { color: inherit; }
 
 /* ======================================================
    BOTTOM NAV
-   MUDANÇA: fundo branco, sem border-radius, colado nas bordas
-   (left/right/bottom = 0), borda superior fina.
-   Ativo: ícone e label azuis. Inativo: ícone e label cinza.
 ====================================================== */
 .bottom-nav {
     position: fixed;
@@ -713,7 +707,6 @@ a { color: inherit; }
     color: var(--text);
 }
 
-/* Ativo: ícone e label ficam azuis */
 .bottom-item.active i {
     color: var(--brand);
     transform: scale(1.08);
@@ -723,7 +716,6 @@ a { color: inherit; }
     color: var(--brand);
 }
 
-/* Indicador: traço azul no topo do item ativo */
 .bottom-item.active::before {
     content: '';
     position: absolute;
@@ -739,7 +731,6 @@ a { color: inherit; }
     cursor: default;
 }
 
-/* Safe area para iPhones com home indicator */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
     .bottom-nav {
         padding-bottom: env(safe-area-inset-bottom);
@@ -752,6 +743,6 @@ a { color: inherit; }
 ====================================================== */
 @media (max-width: 720px) {
     .kpi-grid { grid-template-columns: 1fr; }
-    .two-cols { grid-template-columns: 1fr; }
+    .two-cols  { grid-template-columns: 1fr; }
     .produto-total { min-width: auto; }
 }
